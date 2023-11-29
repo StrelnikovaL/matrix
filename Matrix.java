@@ -256,45 +256,45 @@ public class Matrix {
     public static void enterMatrix(int rows, int cols) {
         colsCount = cols;
         rowsCount = rows;
-        double[][] arr = new double[rows][cols];
+        double[][] array = new double[rows][cols];
         System.out.println("Как хотите ввести матрицу:");
         System.out.println("1. По элементам");
         System.out.println("2. По строке");
-        int choice = scanner.nextInt();
-        if (choice == 1) {
+        int ch = scanner.nextInt();
+        if (ch == 1) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     System.out.printf("Введите элемент a[%d][%d]: ", i + 1, j + 1);
                     String element = scanner.next();
                     if (element.contains("/")) {
-                        String[] p = elsement.split("/");
+                        String[] p = element.split("/");
                         if (Double.parseDouble(p[1]) != 0)
-                            arr[i][j] = Double.parseDouble(p[0]) / Double.parseDouble(p[1]);
+                            array[i][j] = Double.parseDouble(p[0]) / Double.parseDouble(p[1]);
                         else{
                             System.out.println("Деление на ноль невозможно");
                             --j;
                         }
                     } else {
-                        arr[i][j] = Double.parseDouble(element);
+                        array[i][j] = Double.parseDouble(element);
                     }
                 }
             }
-        } else if (choice == 2) {
+        } else if (ch == 2) {
             System.out.println("Ведите разделитель:");
             String del = scanner.next();
-            Scanner input = new Scanner(System.in);
+            Scanner scanner2 = new Scanner(System.in);
             if (del.toLowerCase() != "пробел"){
-                input = input.useDelimiter("[\\s" + del + "]+");
+                scanner2 = scanner2.useDelimiter("[\\s" + del + "]+");
             }
             for (int i = 0; i < rows; i++) {
                 System.out.printf("Введите строку %d: ", i + 1);
                 for (int j = 0; j < cols; j++) {
-                    arr[i][j] = input.nextDouble();
+                    array[i][j] = scanner2.nextDouble();
                 }
             }
         }
 
-        Matrix.array = arr;
+       Matrix.array = array;
     }
 
     public static void print(double[][] a) {
