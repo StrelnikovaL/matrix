@@ -11,22 +11,20 @@ public class Matrix {
         System.out.println("Введите количество строк ");
         int rows = 0, cols = 0;
         do {
-            System.out.println("Введите положительное число");
             while (!scanner.hasNextInt()) {
                 System.out.println("Введённые данные не являются числом");
                 scanner.next();
             }
             rows = scanner.nextInt();
-        } while (rows <= 0);
+        } while (rows <= 0); //чтобы пользователь не ввел ноль
         System.out.println("Введите количество столбцов ");
         do {
-            System.out.println("Введите положительное число");
             while (!scanner.hasNextInt()) {
                 System.out.println("Введённые данные не являются числом");
-                scanner.next();
+                scanner.next(); 
             }
             cols = scanner.nextInt();
-        } while (cols <= 0);
+        } while (cols <= 0); //чтобы пользователь не ввел ноль
         enterMatrix(rows, cols);
         loop:
         while (true) {
@@ -262,26 +260,26 @@ public class Matrix {
         System.out.println("Как хотите ввести матрицу:");
         System.out.println("1. По элементам");
         System.out.println("2. По строке");
-        int choiceOfEnter = scanner.nextInt();
-        if (choiceOfEnter == 1) {
+        int choice = scanner.nextInt();
+        if (choice == 1) {
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
                     System.out.printf("Введите элемент a[%d][%d]: ", i + 1, j + 1);
-                    String k = scanner.next();
-                    if (k.contains("/")) {
-                        String[] d = k.split("/");
-                        if (Double.parseDouble(d[1]) != 0)
-                            arr[i][j] = Double.parseDouble(d[0]) / Double.parseDouble(d[1]);
+                    String element = scanner.next();
+                    if (element.contains("/")) {
+                        String[] p = elsement.split("/");
+                        if (Double.parseDouble(p[1]) != 0)
+                            arr[i][j] = Double.parseDouble(p[0]) / Double.parseDouble(p[1]);
                         else{
                             System.out.println("Деление на ноль невозможно");
                             --j;
                         }
                     } else {
-                        arr[i][j] = Double.parseDouble(k);
+                        arr[i][j] = Double.parseDouble(element);
                     }
                 }
             }
-        } else if (choiceOfEnter == 2) {
+        } else if (choice == 2) {
             System.out.println("Ведите разделитель:");
             String del = scanner.next();
             Scanner input = new Scanner(System.in);
