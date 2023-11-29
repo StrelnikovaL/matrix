@@ -337,10 +337,10 @@ public class Matrix {
         //Matrix a = new Matrix();
         int m = rowsCount;
         int n = colsCount;
-        double arra [][]  = new double[rowsCount][colsCount];
-        for (int i=0; i<rowsCount; i++){
-            for (int j = 0; j<colsCount; j++){
-                arra[i][j]=array[i][j];
+        double arr [][]  = new double[rowsCount][colsCount];
+        for (int i = 0; i < rowsCount; i++){
+            for (int j = 0; j < colsCount; j++){
+                arr[i][j]=array[i][j];
             }
         }
         double e = 0.00000001;
@@ -349,37 +349,37 @@ public class Matrix {
         double r;
         int i = 0;
         int j = 0;
-        while (i<m && j<n){
+        while (i < m && j < n){
             r = 0.0;
-            for (k =  i; k<m; ++k){
-                if (Math.abs(arra[k][j])>r){
+            for (k =  i; k < m; ++k){
+                if (Math.abs(arr[k][j]) > r){
                     l = k;
-                    r = Math.abs(arra[k][j]);
+                    r = Math.abs(arr[k][j]);
                 }
             }
-            if (r<=e){
-                for (k=i; k<m;++k){
+            if (r <= e){
+                for (k = i; k < m;++k){
                     arra[k][j] = 0.0;
                 }
                 ++j;
                 continue;
             }
-            if (l!=i){
-                for (k=j;k<n;++k){
-                    r = arra[i][k];
-                    arra[i][k] = arra[l][k];
-                    arra[l][k] = r * (-1);
+            if (l!= i){
+                for (k = j;k < n;++k){
+                    r = arr[i][k];
+                    arr[i][k] = arr[l][k];
+                    arr[l][k] = r * (-1);
                 }
             }
-            r = arra[i][j];
+            r = arr[i][j];
 
 
-            for (k=i+1;k<m;++k){
+            for (k = i + 1;k < m;++k){
                 double c = (-1) * arra[k][j]/r;
-                arra[k][j] = 0.0;
+                arr[k][j] = 0.0;
 
-                for (l = j+1; l<n; ++l){
-                    arra[k][l] +=c * arra[i][l];
+                for (l = j + 1; l < n; ++l){
+                    arr[k][l] += c * arr[i][l];
                 }
             }
             ++i;
@@ -389,7 +389,7 @@ public class Matrix {
 
         return i;
     }
-    public static int rankColumns(double[][] Matr){
+    /*public static int rankColumns(double[][] Matr){
         List<List<Double>> columns = new ArrayList<>();
         List<Integer> indexes = new ArrayList<>();
         for (int i = 0; i < Matr.length; i ++){
@@ -452,7 +452,7 @@ public class Matrix {
         }
         return rank;
     }
-    public static int calcRank(double [][] Matr){
+    public static int calcRank(double [][] matr){
         double [][] copy = new double[Matr.length][Matr[0].length];
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < Matr.length; i++){
