@@ -65,6 +65,7 @@ public class Matrix {
                     } else if (multiply(arr) == arr) {
                         System.out.println("Умножение не было выполнено");
                     } else {
+						System.out.println("\nРезультат умножения: \n");
                         print(multiply(arr));
                     }
                     break;
@@ -107,32 +108,32 @@ public class Matrix {
 
     public static double[][] multiply(double[][] another) {
         if (colsCount == another.length) {
-            double[][] newmatrix = new double[rowsCount][another[0].length];
-            for (int i = 0; i < newmatrix.length; i++) {
-                for (int j = 0; j < newmatrix[i].length; j++) {
-                    double cell = 0;
-                    for (int l = 0; l < another.length; l++) {
-                        cell += array[i][l] * another[l][j];
+            double[][] newMatrix = new double[rowsCount][another[0].length];
+            for (int i = 0; i < newMatrix.length; i++) {
+                for (int j = 0; j < newMatrix[i].length; j++) {
+                    double newCell = 0;
+                    for (int p = 0; p < another.length; p++) {
+                        newCell += array[i][p] * another[p][j];
                     }
-                    newmatrix[i][j] = cell;
+                    newMatrix[i][j] = newCell;
                 }
             }
-            return newmatrix;
-        } else if (another[0].length == array.length) {
+            return newMatrix;
+        } else if (rowsCount == another[0].length) {
             System.out.println("Выполнить A*B невозможно, но возможно B*A. Хотите выполнить умножение?");
             String choice = scanner.next();
             if (choice.equalsIgnoreCase("yes") | choice.equalsIgnoreCase("y") | choice.equalsIgnoreCase("да") | choice.equalsIgnoreCase("д")) {
-                double[][] newmatrix = new double[another.length][colsCount];
-                for (int i = 0; i < newmatrix.length; i++) {
-                    for (int j = 0; j < newmatrix[i].length; j++) {
-                        double cell = 0;
+                double[][] newMatrix = new double[another.length][colsCount];
+                for (int i = 0; i < newMatrix.length; i++) {
+                    for (int j = 0; j < newMatrix[i].length; j++) {
+                        double newCell = 0;
                         for (int l = 0; l < array.length; l++) {
-                            cell += another[i][l] * array[l][j];
+                            newCell += another[i][l] * array[l][j];
                         }
-                        newmatrix[i][j] = cell;
+                        newMatrix[i][j] = newCell;
                     }
                 }
-                return newmatrix;
+                return newMatrix;
             } else {
                 return another;
             }
@@ -312,15 +313,16 @@ public class Matrix {
         }
     }
 
-    public static double[][] transp(double [][] matr) {
-        double[][] newarr = new double[matr[0].length][matr.length];
-        for (int i = 0; i < matr[0].length; i++) {
-            double[] arr = new double[matr.length];
-            for (int j = 0; j < matr.length; j++)
-                arr[j] = array[j][i];
-            newarr[i] = arr;
+    public static double[][] transp(double [][] arr) {
+        double[][] newArr = new double[arr[0].length][arr.length];
+        for (int i = 0; i < arr[0].length; i++) {
+            double[] arr2 = new double[arr.length];
+            for (int j = 0; j < arr.length; j++) {
+                arr2[j] = arr[j][i];
+				newArr[i] = arr2;
+			}
         }
-        return newarr;
+        return newArr;
     }
 
     static void swap(double mat[][], int row1, int row2, int col) {
