@@ -297,15 +297,15 @@ public class Matrix {
        Matrix.array = array;
     }
 
-    public static void print(double[][] a) {
-        System.out.printf("Матрица [%d * %d] \n", a.length, a[0].length);
-        for (int i = 0; i < a.length; i++) {
-            for (int j = 0; j < a[0].length; j++) {
-                double l = Math.round(a[i][j] * 100) / 100d;
-                if (l % 1 == 0.0) {
-                    System.out.print((int) l + "\t");
+    public static void print(double[][] arr) {
+        System.out.printf("Матрица [%d * %d] \n", arr.length, arr[0].length);
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                double a = Math.round(arr[i][j] * 100) / 100d;//округление до двух десятичных знаков
+                if (a % 1 == 0.0) { //если число целое
+                    System.out.print((int) a + "\t");
                 } else {
-                    System.out.print(l + "\t");
+                    System.out.print(a + "\t");
                 }
             }
             System.out.println();
