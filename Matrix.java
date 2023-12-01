@@ -30,22 +30,18 @@ public class Matrix {
         while (true) {
             System.out.println("\nВыберите, что хотите сделать с матрицей");
             System.out.println("1. Вывести");
-            System.out.println("2. Транспонировать");
-            System.out.println("3. Умножить на матрицу");
-            System.out.println("4. Вычислить ранг");
+            System.out.println("2. Умножить на другую матрицу");
+            System.out.println("3. Вычислить ранг матрицы");
+            System.out.println("4. Транспонировать");
             System.out.println("5. Решить СЛАУ");
             System.out.println("6. Ввести новую матрицу");
-            System.out.println("7. Закончить");
+            System.out.println("7. Заверишть");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     print(array);
                     break;
                 case 2:
-                    System.out.println("Транспонированная матрица");
-                    print(transp(array));
-                    break;
-                case 3:
                     System.out.println("Введите размер матрицы B:");
                     int r = scanner.nextInt();
                     int c = scanner.nextInt();
@@ -69,24 +65,28 @@ public class Matrix {
                         print(multiply(arr));
                     }
                     break;
-                case 4:
+                case 3:
                     System.out.print("Ранг матрицы: ");
-                    System.out.println(calcRank(array));
+                    System.out.println(rangOfMatrix());
+                    break;
+				case 4:
+                    System.out.println("Транспонированная матрица");
+                    print(transp(array));
                     break;
                 case 5:
                     System.out.printf("Введите свободные коэффициенты(%d)\n", colsCount);
-                    double[] koef = new double[colsCount];
+                    double[] k = new double[colsCount];
                     for (int i = 0; i < colsCount; i++) {
                         if (scanner.hasNextDouble()){
-                            koef[i] = scanner.nextDouble();
+                            k[i] = scanner.nextDouble();
                         }else{
-                            System.out.println("Некорректно введено число");
+                            System.out.println("Введенные данные не являются числом");
                             --i;
                         }
                     }
-                    if (solve(koef) != null) {
-                        for (int i = 0; i < koef.length; i++) {
-                            System.out.println(Math.round(solve(koef)[i] * 1000) / 1000);
+                    if (solve(k) != null) {
+                        for (int i = 0; i < k.length; i++) {
+                            System.out.println(Math.round(solve(k)[i] * 1000) / 1000);
                         }
                     }
                     break;
@@ -144,7 +144,7 @@ public class Matrix {
     public static double[] solve(double[] koefficienty) {
         int stroki = array.length;
         int cols = array[0].length;
-        if (det(array) == 0 || det(array) == Double.parseDouble(null)) {
+        if (det(array) == 0) {
             System.out.println("Матрица не обратимая");
             return null;
         }
@@ -219,39 +219,39 @@ public class Matrix {
     }
 
     public static double det(double[][] matrix) {
-        int stroki = matrix.length;
-        if (stroki == matrix[0].length) {
-            double[][] newmatrix = new double[stroki][matrix[0].length];
-            for (int i = 0; i < stroki; i++) {
+        int rows = matrix.length;
+        if (rows == matrix[0].length) {
+            double[][] newMatrix = new double[rows][matrix[0].length];
+            for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < matrix[0].length; j++) {
-                    newmatrix[i][j] = matrix[i][j];
+                    newMatrix[i][j] = matrix[i][j];
                 }
             }
-            for (int i = 0; i < stroki; i++) {
-                if (newmatrix[i][i] != 0) {
-                    for (int m = i + 1; m < stroki; m++) {
-                        double koef = -(newmatrix[m][i] / newmatrix[i][i]);
-                        for (int j = 0; j < stroki; j++) {
-                            newmatrix[m][j] += koef * newmatrix[i][j];
+            for (int i = 0; i < rows; i++) {
+                if (newMatrix[i][i] != 0) {
+                    for (int m = i + 1; m < rows; m++) {
+                        double koef = -(newMatrix[m][i] / newMatrix[i][i]);
+                        for (int j = 0; j < rows; j++) {
+                            newMatrix[m][j] += koef * newMatrix[i][j];
                         }
                     }
                 } else {
-                    for (int l = i + 1; l < stroki; l++) {
-                        if (newmatrix[l][i] != 0) {
-                            double[] n = newmatrix[i];
-                            newmatrix[i] = newmatrix[l];
-                            newmatrix[l] = n;
+                    for (int p = i + 1; p < rows; p++) {
+                        if (newMatrix[p][i] != 0) {
+                            double[] swap = newMatrix[i];
+                            newMatrix[i] = newMatrix[p];
+                            newMatrix[p] = swap;
                         }
                     }
                 }
             }
             double det = 1;
-            for (int i = 0; i < stroki; i++) {
-                det *= newmatrix[i][i];
+            for (int i = 0; i < rows; i++) {
+                det *= newMatrix[i][i];
             }
             return Math.round(det * 10000) / 10000d;
         }
-        return Double.parseDouble(null);
+        return 0;
     }
 
     public static void enterMatrix(int rows, int cols) {
@@ -325,22 +325,14 @@ public class Matrix {
         return newArr;
     }
 
-    static void swap(double mat[][], int row1, int row2, int col) {
-        for (int i = 0; i < col; i++) {
-            double temp = mat[row1][i];
-            mat[row1][i] = mat[row2][i];
-            mat[row2][i] = temp;
-        }
-    }
-
-    public static int rangOfMatrix(){
+	 public static int rangOfMatrix(){
         //Matrix a = new Matrix();
         int m = rowsCount;
         int n = colsCount;
-        double arr [][]  = new double[rowsCount][colsCount];
-        for (int i = 0; i < rowsCount; i++){
+        double arra [][]  = new double[rowsCount][colsCount];
+        for (int i=0; i < rowsCount; i++){
             for (int j = 0; j < colsCount; j++){
-                arr[i][j]=array[i][j];
+                arra[i][j] = array[i][j];
             }
         }
         double e = 0.00000001;
@@ -352,9 +344,9 @@ public class Matrix {
         while (i < m && j < n){
             r = 0.0;
             for (k =  i; k < m; ++k){
-                if (Math.abs(arr[k][j]) > r){
+                if (Math.abs(arra[k][j])>r){
                     l = k;
-                    r = Math.abs(arr[k][j]);
+                    r = Math.abs(arra[k][j]);
                 }
             }
             if (r <= e){
@@ -364,22 +356,22 @@ public class Matrix {
                 ++j;
                 continue;
             }
-            if (l!= i){
+            if (l != i){
                 for (k = j;k < n;++k){
-                    r = arr[i][k];
-                    arr[i][k] = arr[l][k];
-                    arr[l][k] = r * (-1);
+                    r = arra[i][k];
+                    arra[i][k] = arra[l][k];
+                    arra[l][k] = r * (-1);
                 }
             }
-            r = arr[i][j];
+            r = arra[i][j];
 
 
             for (k = i + 1;k < m;++k){
                 double c = (-1) * arra[k][j]/r;
-                arr[k][j] = 0.0;
+                arra[k][j] = 0.0;
 
-                for (l = j + 1; l < n; ++l){
-                    arr[k][l] += c * arr[i][l];
+                for (l = j+1; l<n; ++l){
+                    arra[k][l] +=c * arra[i][l];
                 }
             }
             ++i;
@@ -388,91 +380,5 @@ public class Matrix {
         }
 
         return i;
-    }
-    /*public static int rankColumns(double[][] Matr){
-        List<List<Double>> columns = new ArrayList<>();
-        List<Integer> indexes = new ArrayList<>();
-        for (int i = 0; i < Matr.length; i ++){
-            boolean flag = true;
-            for (int j = 0; j < Matr[0].length; j++){
-                if (Matr[i][j] != 0){
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag){
-                indexes.add(i);
-            }
-        }
-        double [][] newArr = new double [Matr.length - indexes.size()][Matr[0].length];
-        int cnt = 0;
-        for (int i = 0; i < Matr.length; i++){
-            if (!indexes.contains(i)) {
-                double[] arr = new double[Matr[0].length];
-                for (int j = 0; j < Matr[0].length; j++) {
-                    arr[j] = Matr[i][j];
-                }
-                if (cnt < newArr.length) {
-                    newArr[cnt] = arr;
-                    cnt += 1;
-                }
-            }
-        }
-        if (indexes.size() == Matr.length ) {
-            return 0;
-        }
-        int rank = 0;
-        int dim0 = newArr[0].length;
-        for (int col = 0; col < dim0; ++col){
-            List<Double> currCol = new ArrayList<>();
-            for (int i = 0; i < newArr.length; ++i){
-                currCol.add(newArr[i][col]);
-            }
-            if (!columns.contains(currCol)){
-                columns.add(currCol);
-                Double[][] mtr = columns.stream()
-                        .map(a -> a.toArray(new Double[0]))
-                        .toArray(Double[][]::new);
-                int min = Math.min(mtr.length, mtr[0].length);
-                double[][] matr = new double[min][min];
-                for (int j = 0; j < min; j++) {
-                    for (int i = 0; i < min; i++) {
-                        String text = mtr[i][j].toString();
-                        matr[j][i] = Double.parseDouble(text);
-                    }
-                }
-                double det = det(matr);
-                if (det != 0.0) {
-                    rank++;
-                }
-                else {
-                    columns.remove(currCol);
-                }
-            }
-        }
-        return rank;
-    }
-    public static int calcRank(double [][] matr){
-        double [][] copy = new double[Matr.length][Matr[0].length];
-        List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < Matr.length; i++){
-            for (int j = 0; j < Matr[0].length; j++){
-                copy[i][j] = Matr[i][j];
-            }
-        }
-        for (int i = 0; i < Matr.length; i++){
-            for (int j = i + 1; j < Matr.length; j++){
-                swap(copy, i, j, Matr[0].length);
-                list.add(rankColumns(copy));
-            }
-        }
-        copy = transp(Matr);
-        for (int i = 0; i < Matr.length; i++){
-            for (int j = i + 1; j < Matr.length; j++){
-                swap(copy, i, j, Matr[0].length);
-                list.add(rankColumns(copy));
-            }
-        }
-        return Collections.max(list);
     }
 }
